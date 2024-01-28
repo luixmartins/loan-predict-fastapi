@@ -7,8 +7,25 @@ from model import Model
 app = FastAPI()
 
 class InputData(BaseModel): 
-    params: List[float]
+    dependentes: int 
+    educacao: int 
+    empregado: int 
+    renda_anual: float 
+    valor: float 
+    pagamento: int 
+    score: int 
+    patrimonio_residencial: float 
+    patrimonio_comercial: float 
+    patrimonio_luxo: float 
+    patrimonio_bancario: float 
+
+@app.get("/")
+def home(): 
+    return {"FastAPI": "Hello"}
+
 
 @app.post("/predict")
-def predict(data: InputData):
-    return {'response': True if Model().predict_loan(data.params) == 1 else 0}
+async def predict(data: InputData):
+    status = await Model.predict_loan(data)
+
+    return {'response': status}
