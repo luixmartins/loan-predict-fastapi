@@ -1,5 +1,6 @@
 from fastapi import FastAPI 
 from pydantic import BaseModel 
+import pandas as pd 
 from typing import List 
 
 from model import Model 
@@ -26,6 +27,6 @@ def home():
 
 @app.post("/predict")
 async def predict(data: InputData):
-    status = await Model.predict_loan(data)
+    status = Model().predict_loan(data=data.dict())
 
     return {'response': status}
